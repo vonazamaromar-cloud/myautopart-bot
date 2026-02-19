@@ -3,13 +3,15 @@ import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from flask import Flask, request, abort
 
-TOKEN = os.environ.get('BOT_TOKEN')          # ← сюда токен попадёт через настройки Render
-WEBHOOK_URL = os.environ.get('WEBHOOK_URL')  # ← сюда попадёт https://твой-бот.onrender.com
+TOKEN = os.environ.get('BOT_TOKEN')
+if not TOKEN:
+    raise ValueError("BOT_TOKEN not set in environment variables")
 
 bot = telebot.TeleBot(TOKEN, threaded=False)
 app = Flask(__name__)
 
-WEBHOOK_PATH = f'/{TOKEN}'   # секретный путь, чтобы никто не догадался
+# Простой и надёжный путь
+WEBHOOK_PATH = '/webhook'
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -57,5 +59,4 @@ def webhook():
         abort(403)
 
 if __name__ == '__main__':
-    # Это только для локального теста, на Render не используется
     pass
