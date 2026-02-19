@@ -6,7 +6,7 @@ from flask import Flask, request, abort
 TOKEN = os.environ.get('BOT_TOKEN')          # ← сюда токен попадёт через настройки Render
 WEBHOOK_URL = os.environ.get('WEBHOOK_URL')  # ← сюда попадёт https://твой-бот.onrender.com
 
-bot = telebot.TeleBot(TOKEN)
+bot = telebot.TeleBot(TOKEN, threaded=False)
 app = Flask(__name__)
 
 WEBHOOK_PATH = f'/{TOKEN}'   # секретный путь, чтобы никто не догадался
